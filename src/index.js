@@ -5,18 +5,15 @@ import { fetchCountries } from './fetchCountries';
 
 const DEBOUNCE_DELAY = 300;
 
-const inputCountry = document.querySelector('#search-box');
+const searchBox = document.querySelector('#search-box');
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
-//========FUNCTIONS==================
-const clearContent = () => {
-  countryInfo.innerHTML = '';
-  countryList.innerHTML = '';
-};
 
-const searchCountry = event => {
-  const findCountry = event.target.value.trim();
+
+
+const searchCountry = evt => {
+  const findCountry = evt.target.value.trim();
   if (!findCountry) {
     clearContent();
     return;
@@ -44,7 +41,7 @@ const searchCountry = event => {
     });
 };
 
-//==========RENDERING 1 COUNTRY=========================
+
 const renderCountryList = country => {
   const markup = country
     .map(({ name, flags }) => {
@@ -54,7 +51,7 @@ const renderCountryList = country => {
   countryList.innerHTML = markup;
 };
 
-//=========RENDERING 10 OR LESS COUNTRIES=================
+
 const renderCountryInfo = country => {
   const markup = country
     .map(({ name, capital, population, flags, languages }) => {
@@ -69,5 +66,9 @@ const renderCountryInfo = country => {
   countryInfo.innerHTML = markup;
 };
 
-//=========EVENT LISTENER============
-inputCountry.addEventListener('input', debounce(searchCountry, DEBOUNCE_DELAY));
+const clearContent = () => {
+  countryInfo.innerHTML = '';
+  countryList.innerHTML = '';
+};
+
+searchBox.addEventListener('input', debounce(searchCountry, DEBOUNCE_DELAY));
