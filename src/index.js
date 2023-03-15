@@ -2,27 +2,25 @@ import './css/styles.css';
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
 import { fetchCountries } from './fetchCountries';
-const DEBOUNCE_DELAY = 500;
+const DEBOUNCE_DELAY = 300;
 const searchBox = document.querySelector('#search-box');
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
-
+const notifyOptions = {
+    showOnlyTheLastOne: true,
+    cssAnimationStyle: 'from-right',
+    width: '360px',
+}
 
 searchBox.addEventListener('input', debounce(() => {
     countryList.innerHTML = '';
     countryInfo.innerHTML = '';
-    const name = searchBox.value;
-    console.log(name)
-    fetch(`https://restcountries.com/v3.1/name/${name}?fields=,name,official,capital,languages,flags,population`)
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            throw new Error(res.status);
-        })
+    const name = searchBox.value.trim();
+    if (name === '') return;
+    fetchCountries(name)
         .then(data => {
             if (data.length > 10) {
-                Notiflix.Notify.info('Too many matches found. Please enter a more specific name.')
+                Notiflix.Notify.info('Too many matches found. Please enter a more specific name.', notifyOptions)
             }
             else if (data.length === 1) {
 
@@ -33,7 +31,10 @@ searchBox.addEventListener('input', debounce(() => {
                 renderCountryList(data);
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err);
+            Notiflix.Notify.failure('Oops, there is no country with that name', notifyOptions);
+        })
 }, DEBOUNCE_DELAY))
 
 const renderCountryList = (countries) => {
@@ -59,30 +60,3 @@ const renderCountryInfo = (country) => {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-// searchBox.addEventListener('input', debounce(e => {
-//     console.log(searchBox.value)
-//     const inputvalue = searchBox.value
-//     if (inputvalue === '') return;
-//     fetchCountries()
-//         .then(data => {
-//             console.log(searchBox.value)
-//             console.log(data.json())
-//         })
-
-
-
-
-
-
-// }, DEBOUNCE_DELAY)
-// )
