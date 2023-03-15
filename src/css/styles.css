@@ -55,16 +55,39 @@ body {
 
 }
 
+.country-info {
+  max-width: 400px;
+}
+
+.info__image {
+  max-width: 500px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .show {
-  animation: showing 1s;
+  animation: showing 500ms;
 }
 
 @keyframes showing {
   from {
+    transform: translateX(-30);
     opacity: 0;
   }
 
   to {
+    transform: translateX(0);
     opacity: 1;
   }
 }
