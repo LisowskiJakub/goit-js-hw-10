@@ -21,9 +21,12 @@ body {
 
 
 .country-list {
+
   padding: 0;
   list-style: none;
   list-style-type: none;
+  transition: opacity 500ms;
+  will-change: opacity;
 }
 
 .country__item {
@@ -49,5 +52,19 @@ body {
 
 .country__name {
   font-size: 22px;
-  ;
+
+}
+
+.show {
+  animation: showing 1s;
+}
+
+@keyframes showing {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
